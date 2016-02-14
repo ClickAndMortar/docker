@@ -26,14 +26,10 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     wget \
     && apt-get autoremove -y && apt-get clean && rm -r /var/lib/apt/lists/*
 
-# Composer
-RUN curl -k -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # Supervisord
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Start
-ADD entrypoint.sh /opt/entrypoint.sh
+ADD entrypoint.sh /entrypoint.sh
 
-
-CMD ["/opt/entrypoint.sh"]
+CMD ["/entrypoint.sh"]
