@@ -13,11 +13,11 @@ RUN apt-get update && \
  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # PHP configuration
- RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php5/{apache2,cli}/php.ini && \
+ RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php5/apache2/php.ini /etc/php5/cli/php.ini && \
      sed -i -e  's/post_max_size = 8M/post_max_size = 16M/g' \
      -e 's/upload_max_filesize = 2M/upload_max_filesize = 16M/g' \
      -e 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/g' \
-     -e 's/display_errors = Off/display_errors = On/'
+     -e 's/display_errors = Off/display_errors = On/' \
      -e "s/max_execution_time = 30/max_execution_time = 300/" \
      -e "s/max_input_time = 60/max_input_time = 300/" \
      -e "s/memory_limit = 128M/memory_limit = 1024M/" /etc/php5/apache2/php.ini
