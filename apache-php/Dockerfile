@@ -3,13 +3,11 @@ FROM debian:jessie
 # Heavily inspired by CenturyLinkLabs Dockerfiles
 MAINTAINER  Click & Mortar <contact@clickandmortar.fr>
 
-ENV DEBIAN_FRONTEND noninteractive
-
 # Install packages
-RUN apt-get update && \
- apt-get -y install ca-certificates curl git netcat supervisor tar vim wget && \
- apt-get -y install apache2 libapache2-mod-php5 php5-mysql php5-intl php5-mcrypt php5-gd php-pear php-apc php5-apcu php5-xsl php5-cli php5-curl && \
- apt-get autoremove -y && apt-get clean && rm -r /var/lib/apt/lists/* && \
+RUN LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get update && \
+ LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get -y install ca-certificates curl git netcat supervisor tar vim wget && \
+ LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 libapache2-mod-php5 php5-mysql php5-intl php5-mcrypt php5-gd php-pear php-apc php5-apcu php5-xsl php5-cli php5-curl && \
+ LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && apt-get clean && rm -r /var/lib/apt/lists/* && \
  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # PHP configuration
