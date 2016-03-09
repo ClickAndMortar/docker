@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-if [ -f /var/www/html/app/console ]; then
+if [ -f /var/www/app/console ]; then
     echo "Initialize Symfony2"
 
-    cd /var/www/html
+    cd /var/www
     setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs || true
     setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs || true
 
@@ -22,7 +22,7 @@ if [ -f /var/www/html/app/console ]; then
             done
         fi
 
-        if [ -d /var/www/html/app/DoctrineMigrations ]; then
+        if [ -d /var/www/app/DoctrineMigrations ]; then
             php app/console doctrine:migrations:migrate --no-interaction || true
         else
             php app/console doctrine:schema:update --dump-sql --force || true

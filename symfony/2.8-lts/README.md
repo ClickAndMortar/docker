@@ -1,6 +1,6 @@
-# Symfony Development Docker
+# Symfony Docker
 
-Docker image for Symfony2 website development containing PHP 5.6, Apache2, APC, [Composer](https://getcomposer.org/) and xDebug.
+Debian Jessie based Docker image for Symfony2 website development containing PHP 5.6, Apache2, APC, [Composer](https://getcomposer.org/) and xDebug.
 
 ## Usage
 
@@ -23,7 +23,7 @@ app:
     DOMAIN_NAME: app.project.docker
     SYMFONY_ENV: dev
     SYMFONY_DEBUG: 1
-    SYMFONY_HIDE_DEPRECATED: true
+    SYMFONY_HIDE_DEPRECATED: 1
 
 mysql:
   image: mysql:5.6

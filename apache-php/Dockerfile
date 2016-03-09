@@ -22,13 +22,9 @@ RUN LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get update && \
 
 # Override default Apache conf
 ADD apache-vhost.conf /etc/apache2/sites-available/000-default.conf
-ADD apache-vhost-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 
 # Enable Apache rewrite & ssl modules
-RUN a2enmod rewrite ssl
-
-# Enable SSL VirtualHost
-RUN a2ensite default-ssl
+RUN a2enmod rewrite
 
 # Add image configuration and scripts
 ADD apache2.sh /apache2.sh
@@ -36,8 +32,8 @@ ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh
 ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
 
-# Expose HTTP and HTTPS
-EXPOSE 80 443
+# Expose HTTP
+EXPOSE 80
 
 # Share Apache DocumentRoot
 VOLUME ["/var/www/html"]

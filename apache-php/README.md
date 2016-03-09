@@ -1,15 +1,14 @@
-# Presentation
+# Apache PHP Docker
 
-Debian Jessie based Apache2 and PHP Docker
+Debian Jessie based Apache2 and PHP Docker image.
 
 ## Exposed ports
 
 * `80` (HTTP)
-* `443` (HTTPS)
 
 ## Volumes
 
-* `/var/www/html`
+* `/var/www`
 
 # Build
 
@@ -20,5 +19,5 @@ make
 # Run
 
 ```bash
-docker run -d -P -v $PWD:/var/www/html clickandmortar/apache-php --name=<my_container>
+docker run -d -P -v $PWD:/var/www clickandmortar/apache-php --name=<my_container>
 ````
