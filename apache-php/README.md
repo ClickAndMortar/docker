@@ -20,4 +20,4 @@ make
 
 ```bash
 docker run -d -P -v $PWD:/var/www clickandmortar/apache-php --name=<my_container>
-````
+```
