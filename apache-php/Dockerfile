@@ -36,8 +36,8 @@ ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
 EXPOSE 80
 
 # Share Apache DocumentRoot
-VOLUME ["/var/www/html"]
+VOLUME ["/var/www"]
 
-WORKDIR /var/www/html
+WORKDIR /var/www
 
 CMD ["/entrypoint.sh"]
