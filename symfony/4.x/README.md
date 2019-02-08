@@ -10,7 +10,7 @@ Create a `docker-compose.yml` file in your Symfony project's root, using the sam
 php:
   image: clickandmortar/symfony:4.x
   ports:
-  - 12080:80
+  - 12080:8080
   volumes:
   - .:/app
   environment:
