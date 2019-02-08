@@ -4,14 +4,16 @@ MAINTAINER Click & Mortar <contact@clickandmortar.fr>
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        git wget zip zlib1g-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev \
+        git wget zip zlib1g-dev libicu-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev \
     && wget https://getcomposer.org/composer.phar -O /usr/local/bin/composer \
     && chmod +x /usr/local/bin/composer \
-    && docker-php-ext-install pdo pdo_mysql opcache zip \
+    && docker-php-ext-install pdo pdo_mysql opcache zip json \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
     && a2enmod rewrite \
     && sed -i 's/Listen 80$/Listen 8080/g' /etc/apache2/ports.conf
 
