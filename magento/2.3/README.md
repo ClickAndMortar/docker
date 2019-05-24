@@ -7,20 +7,22 @@ Debian Stretch based Docker image for Magento 2.3 website development containing
 Create a `docker-compose.yml` file in your Magento project's root, using the sample below:
 
 ```yml
-php:
-  image: clickandmortar/magento:2.3
-  ports:
-  - 2380:8080
-  volumes:
-  - ./magento:/app
+version: '3'
+services:
+  php:
+    image: clickandmortar/magento:2.3
+    ports:
+    - 2380:8080
+    volumes:
+    - ./magento:/app
 
-mysql:
-  image: mysql:5.7
-  environment:
-    MYSQL_ROOT_PASSWORD: root
-    MYSQL_DATABASE: magento
-    MYSQL_USER: magento
-    MYSQL_PASSWORD: magento
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: magento
+      MYSQL_USER: magento
+      MYSQL_PASSWORD: magento
 ```
 
 Create directory for volume : `mkdir magento` (to avoid trouble with permission).
