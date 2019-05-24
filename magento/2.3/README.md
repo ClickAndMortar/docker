@@ -23,6 +23,8 @@ mysql:
     MYSQL_PASSWORD: magento
 ```
 
+Create directory for volume : `mkdir magento` (to avoid trouble with permission).
+
 Then run it : `docker-compose up -d`.
 
 ### Magento install
@@ -30,7 +32,7 @@ Then run it : `docker-compose up -d`.
 First [get your authentication keys](https://devdocs.magento.com/guides/v2.3/install-gde/prereq/connect-auth.html) for Magento repository, then:
 
 ```bash
-docker-compose exec php composer create-project --repository=https://repo.magento.com/ magento/project-community-edition magento
+docker-compose exec php composer create-project --repository=https://repo.magento.com/ magento/project-community-edition .
 ```
 
 You may run the setup wizard from the web UI at http://localhost:2380, or run it via CLI:
