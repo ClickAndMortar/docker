@@ -1,6 +1,8 @@
 # Docker images
 
 * [Apache + PHP](apache-php)
+* [Composer](composer)
+  * [PHP 7.2](composer/php-7.2)
 * Magento
   * [2.3](magento/2.3)
 * Symfony:
