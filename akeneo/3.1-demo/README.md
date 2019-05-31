@@ -53,3 +53,5 @@ See `helm/chart/values.yaml` for default & available config values.
 - [ ] Allow alternate service exposure methods (node port, cluster IP, etc.)
 - [ ] Use environment variables for config within `parameters.yml`
 - [ ] Test scaling up Akeneo deployment 
+- [ ] Setup Akeneo cron tasks as Kubernetes Jobs
+- [x] Run a separate Deployment for the queue consumer
