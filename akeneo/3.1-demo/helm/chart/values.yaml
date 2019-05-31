@@ -1,0 +1,17 @@
+namespace: akeneo
+
+akeneo:
+  image: clickandmortar/akeneo:3.1-demo
+  #hostname: akeneo-demo.k8s.candm.fr
+  #https: true
+  #certmanager-cluster-issuer: letsencrypt-prod
+
+mysql:
+  image: mysql:5.7
+  storage: 20Gi
+
+elasticsearch:
+  image: elasticsearch:6.5.4
+  replicas: 2
+  memory: 1g
+  storage: 10Gi

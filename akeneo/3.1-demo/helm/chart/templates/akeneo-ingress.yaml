@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    {{- if .Values.akeneo.certmanager-cluster-issuer -}}
+    certmanager.k8s.io/cluster-issuer: {{ .Values.akeneo.certmanager-cluster-issuer }}
+    {{ end }}
+  name: akeneo-ingress
+  namespace: {{ .Values.namespace }}
+spec:
+  rules:
+  - host: {{ .Values.akeneo.hostname }}
+    http:
+      paths:
+      - backend:
+          serviceName: akeneo
+          servicePort: 8080
+        path: /
+  {{- if .Values.akeneo.https -}}
+  tls:
+  - hosts:
+    - {{ .Values.akeneo.hostname }}
+    secretName: akeneo-tls-cert
+  {{ end }}

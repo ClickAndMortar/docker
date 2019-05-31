@@ -1,0 +1,13 @@
+parameters:
+  database_driver: pdo_mysql
+  database_host: mysql
+  database_port: null
+  database_name: akeneo
+  database_user: akeneo
+  database_password: akeneo
+  locale: en
+  secret: ThisTokenIsNotSoSecretChangeIt
+  product_index_name: akeneo_pim_product
+  product_model_index_name: akeneo_pim_product_model
+  product_and_product_model_index_name: akeneo_pim_product_and_product_model
+  index_hosts: 'elasticsearch:9200'

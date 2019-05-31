@@ -20,7 +20,9 @@ RUN apt-get update \
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf
 
-RUN useradd -s /bin/bash -d /home/docker -m -g www-data docker
+RUN useradd -s /bin/bash -d /home/docker -m -g www-data docker \
+    && mkdir /app \
+    && chown docker /app
 
 USER docker
 
