@@ -52,6 +52,6 @@ See `helm/chart/values.yaml` for default & available config values.
 - [ ] Automatically run DB installer (`pim:installer:db` command) on deployment
 - [ ] Allow alternate service exposure methods (node port, cluster IP, etc.)
 - [ ] Use environment variables for config within `parameters.yml`
-- [ ] Test scaling up Akeneo deployment 
-- [ ] Setup Akeneo cron tasks as Kubernetes Jobs
+- [x] Test scaling up Akeneo deployment: ✅ once DB is initialized
 - [x] Run a separate Deployment for the queue consumer
+- [ ] Setup Akeneo cron tasks as Kubernetes Jobs
