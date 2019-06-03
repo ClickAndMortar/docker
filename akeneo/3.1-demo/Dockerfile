@@ -9,8 +9,10 @@ RUN apt-get update \
 
 WORKDIR /app
 
-RUN php -dmemory_limit=-1 /usr/local/bin/composer create-project --no-interaction --ignore-platform-reqs --prefer-dist --no-dev --no-progress \
-    akeneo/pim-community-standard . "3.1.*@stable"
+RUN composer global require hirak/prestissimo \
+    && php -dmemory_limit=-1 /usr/local/bin/composer create-project --no-interaction --ignore-platform-reqs --prefer-dist --no-dev --no-progress \
+        akeneo/pim-community-standard . "3.1.*@stable" \
+    && rm -rf /app/var/*
 
 COPY parameters.yml /app/app/config/parameters.yml
 
@@ -27,6 +29,8 @@ RUN yarn install && yarn run webpack && rm -rf node_modules
 FROM php:7.2-apache
 
 COPY --from=js-builder /app /app
+
+COPY pim-init-db.sh /usr/local/bin/pim-init-db.sh
 
 ENV APACHE_RUN_USER docker
 
@@ -45,7 +49,10 @@ RUN apt-get update \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && a2enmod rewrite \
-    && sed -i 's/Listen 80$/Listen 8080/g' /etc/apache2/ports.conf
+    && sed -i 's/Listen 80$/Listen 8080/g' /etc/apache2/ports.conf \
+    && wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -O /usr/local/bin/wait-for-it.sh \
+    && chmod +x /usr/local/bin/wait-for-it.sh \
+    && chmod +x /usr/local/bin/pim-init-db.sh
 
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf

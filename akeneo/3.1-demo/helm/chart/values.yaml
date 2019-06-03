@@ -2,9 +2,12 @@ namespace: akeneo
 
 akeneo:
   image: clickandmortar/akeneo:3.1-demo
+  # Hostname for Ingress
   #hostname: akeneo-demo.k8s.candm.fr
+  # Enable HTTPS and SSL certificate request
   #https: true
-  #certmanager-cluster-issuer: letsencrypt-prod
+  # CertManager's ClusterIssuer used to issue SSL certificate
+  #certmanagerClusterIssuer: letsencrypt-prod
 
 mysql:
   image: mysql:5.7

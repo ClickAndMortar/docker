@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: akeneo-init
+  namespace: {{ .Values.namespace }}
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 180
+  template:
+    spec:
+      containers:
+        - name: akeneo-init
+          image: {{ .Values.akeneo.image }}
+          imagePullPolicy: Always
+          command: ["/usr/local/bin/pim-init-db.sh"]
+      restartPolicy: Never

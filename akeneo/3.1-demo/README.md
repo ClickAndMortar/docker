@@ -33,6 +33,8 @@ services:
     image: elasticsearch:6.5.4
 ```
 
+Run `docker-composer exec php /usr/local/bin/pim-init-db.sh` to initialize database, and create demo data.
+
 Then open http://localhost:3380.
 
 ### With Kubernetes
@@ -49,9 +51,10 @@ See `helm/chart/values.yaml` for default & available config values.
 
 ## Enhancements
 
-- [ ] Automatically run DB installer (`pim:installer:db` command) on deployment
+- [x] Automatically run DB installer (`pim:installer:db` command) on deployment: init Job created
 - [ ] Allow alternate service exposure methods (node port, cluster IP, etc.)
 - [ ] Use environment variables for config within `parameters.yml`
+- [ ] Store passwords in Secrets
 - [x] Test scaling up Akeneo deployment: ✅ once DB is initialized
 - [x] Run a separate Deployment for the queue consumer
 - [ ] Setup Akeneo cron tasks as Kubernetes Jobs

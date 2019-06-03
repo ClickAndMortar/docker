@@ -5,8 +5,8 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-    {{- if index .Values.akeneo "certmanager-cluster-issuer" }}
-    certmanager.k8s.io/cluster-issuer: {{ index .Values.akeneo "certmanager-cluster-issuer" }}
+    {{- if .Values.akeneo.certmanagerClusterIssuer }}
+    certmanager.k8s.io/cluster-issuer: {{ .Values.akeneo.certmanagerClusterIssuer }}
     {{- end }}
   name: akeneo-ingress
   namespace: {{ .Values.namespace }}
