@@ -28,7 +28,7 @@ spec:
         env:
         - name: CLUSTER_NAME
           value: docker
-        - name: APP_ENV
+        - name: SYMFONY_ENV
           value: prod
         ports:
         - containerPort: 8080

@@ -20,6 +20,8 @@ services:
     image: clickandmortar/akeneo:3.1-demo
     ports:
     - 3380:8080
+    environment:
+      SYMFONY_ENV: prod
 
   mysql:
     image: mysql:5.7
