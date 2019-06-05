@@ -45,7 +45,7 @@ helm delete --purge akeneo-demo
 
 > _Optional step: build the image running `make build` within this directory._
 
-Then use the following `docker-compose.yml` sample:
+You may use the following `docker-compose.yml` sample:
 
 ```yaml
 version: '3'
@@ -69,7 +69,7 @@ services:
     image: elasticsearch:6.5.4
 ```
 
-Run `docker-composer exec php /usr/local/bin/pim-init-db.sh` to initialize database, and create demo data.
+Run `docker-composer exec php /usr/local/bin/pim-init-db.sh` to initialize database, and load demo data.
 
 Then open http://localhost:3380.
 
