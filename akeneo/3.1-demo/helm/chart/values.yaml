@@ -2,6 +2,8 @@ namespace: akeneo
 
 akeneo:
   image: clickandmortar/akeneo:3.1-demo
+  # Use an Ingress (requires an Ingress Controller)
+  #ingress: true
   # Hostname for Ingress
   #hostname: akeneo-demo.k8s.candm.fr
   # Enable HTTPS and SSL certificate request

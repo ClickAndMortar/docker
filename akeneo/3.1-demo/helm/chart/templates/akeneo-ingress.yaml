@@ -1,3 +1,4 @@
+{{- if .Values.akeneo.ingress }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -25,3 +26,4 @@ spec:
     - {{ .Values.akeneo.hostname }}
     secretName: akeneo-tls-cert
   {{- end }}
+{{- end }}
