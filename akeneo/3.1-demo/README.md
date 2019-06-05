@@ -43,7 +43,7 @@ helm delete --purge akeneo-demo
 
 ### With Docker
 
-Build the image running `make build` within this directory.
+> _Optional step: build the image running `make build` within this directory._
 
 Then use the following `docker-compose.yml` sample:
 
