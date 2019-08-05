@@ -69,6 +69,19 @@ services:
     image: elasticsearch:6.5.4
 ```
 
+You may have to increase max virtual memory areas if you see the following error:
+```
+docker-compose logs --tail 100 -f elasticsearch
+...
+elasticsearch_1_2bad8dfeda81 | ERROR: [1] bootstrap checks failed
+elasticsearch_1_2bad8dfeda81 | [1]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+...
+```
+Run the following command to increase max virtual memory areas to the required size:
+```
+sudo sysctl -w vm.max_map_count=262144
+```
+
 Run `docker-composer exec php /usr/local/bin/pim-init-db.sh` to initialize database, and load demo data.
 
 Then open http://localhost:3380.
