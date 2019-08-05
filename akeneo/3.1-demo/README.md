@@ -82,7 +82,7 @@ Run the following command to increase max virtual memory areas to the required s
 sudo sysctl -w vm.max_map_count=262144
 ```
 
-Run `docker-composer exec php /usr/local/bin/pim-init-db.sh` to initialize database, and load demo data.
+Run `docker-compose exec php /usr/local/bin/pim-init-db.sh` to initialize database, and load demo data.
 
 Then open http://localhost:3380.
 
