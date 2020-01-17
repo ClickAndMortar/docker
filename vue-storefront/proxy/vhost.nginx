@@ -1,0 +1,49 @@
+server {
+    listen 80;
+
+    autoindex off;
+    charset UTF-8;
+    server_tokens off;
+
+    resolver local=on ipv6=off;
+    resolver_timeout 5s;
+
+    set_by_lua_block $vsf_backend_host {
+      return os.getenv("VSF_BACKEND_HOST")
+    }
+
+    location / {
+        if ( $request_method = 'GET' ) {
+          rewrite_by_lua_file /etc/nginx/lua/redis_fpc.lua;
+        }
+
+        proxy_pass http://$vsf_backend_host;
+    }
+
+    location /_vsf {
+      rewrite ^/_vsf/(.*)$ /$1 break;
+
+      proxy_pass http://$vsf_backend_host;
+    }
+
+    gzip on;
+    gzip_disable "msie6";
+
+    gzip_comp_level 6;
+    gzip_min_length 1100;
+    gzip_buffers 16 8k;
+    gzip_proxied any;
+    gzip_types
+        text/plain
+        text/css
+        text/js
+        text/xml
+        text/javascript
+        application/javascript
+        application/x-javascript
+        application/json
+        application/xml
+        application/xml+rss
+        image/svg+xml;
+    gzip_vary on;
+}
