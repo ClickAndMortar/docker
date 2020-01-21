@@ -22,10 +22,10 @@ spec:
           serviceName: akeneo-service
           servicePort: 8080
         path: /
-  {{- if .Values.akeneo.https }}
+  {{- if .Values.akeneo.ingress.https }}
   tls:
   - hosts:
-    - {{ .Values.akeneo.hostname }}
+    - {{ .Values.akeneo.ingress.hostname }}
     secretName: akeneo-tls-cert
   {{- end }}
 {{- end }}
