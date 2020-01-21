@@ -1,4 +1,4 @@
-# Akeneo 3.1 Demo
+# Akeneo 3.x Demo
 
 This repo provides the following:
 
