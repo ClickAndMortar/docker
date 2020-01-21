@@ -1,7 +1,7 @@
 # Docker images
 
 * Akeneo
-  * [Akeneo 3.1 Demo](akeneo/3.1-demo)
+  * [Akeneo 3.x Demo](akeneo/3.x-demo)
 * [Apache + PHP](apache-php)
 * [Composer](composer)
   * [PHP 7.2](composer/php-7.2)

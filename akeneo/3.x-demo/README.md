@@ -2,10 +2,10 @@
 
 This repo provides the following:
 
-* Fully-packaged Docker for Akeneo 3.1 🐳
+* Fully-packaged Docker for Akeneo 3.x 🐳 (3.1 & 3.2 currently available)
 * Helm chart to deploy the demo on Kubernetes ☁
 
-Those can be used to easily deploy a working demo of Akeneo 3.1 🚀.
+Those can be used to easily deploy a working demo of Akeneo 3.x 🚀.
 
 ## Usage
 
@@ -14,7 +14,7 @@ Those can be used to easily deploy a working demo of Akeneo 3.1 🚀.
 #### Without Ingress
 
 ```bash
-helm install helm/chart/ --name=akeneo-demo
+helm install helm/chart/ --name=akeneo-demo --namespace=akeneo --set-string akeneo.version=3.2
 ```
 
 Then run:
@@ -28,7 +28,8 @@ Open http://localhost:8080 and login with `admin` / `admin`.
 #### With an Ingress
 
 ```bash
-helm install helm/chart/ --name=akeneo-demo --set akeneo.ingress=true --set akeneo.hostname=my.host.name
+helm install helm/chart/ --name=akeneo-demo --namespace=akeneo \
+    --set akeneo.ingress.enabled=true --set akeneo.ingress.hostname=my.host.name
 ```
 
 See `helm/chart/values.yaml` for default & available config values.
@@ -51,7 +52,7 @@ You may use the following `docker-compose.yml` sample:
 version: '3'
 services:
   php:
-    image: clickandmortar/akeneo:3.1-demo
+    image: clickandmortar/akeneo:3.2-demo
     ports:
     - 3380:8080
     environment:
@@ -76,9 +77,11 @@ Then open http://localhost:3380.
 ## Enhancements
 
 - [x] Automatically run DB installer (`pim:installer:db` command) on deployment: init Job created
+- [ ] Use `ConfigMap`s for vhost, PHP config and `parameters.yml`
 - [ ] Use environment variables for config within `parameters.yml`
 - [ ] Store passwords in Secrets
 - [x] Test scaling up Akeneo deployment: ✅ once DB is initialized
 - [x] Run a separate Deployment for the queue consumer
-- [ ] Setup Akeneo cron tasks as Kubernetes Jobs
+- [ ] Setup Akeneo cron tasks as Kubernetes `CronJob`s
 - [x] Remove mandatory use Ingress Controller
+- [ ] Allow using a custom Akeneo image

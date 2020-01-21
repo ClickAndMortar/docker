@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: akeneo
-  namespace: {{ .Values.namespace }}
+  name: akeneo-service
 spec:
   selector:
     app.kubernetes.io/name: akeneo
+    app.kubernetes.io/part-of: akeneo
   ports:
   - name: http
     port: 8080

@@ -2,6 +2,8 @@ FROM php:7.2-cli AS php-builder
 
 MAINTAINER Click & Mortar <contact@clickandmortar.fr>
 
+ARG VERSION=3.1
+
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y git wget zip \
     && wget https://getcomposer.org/composer.phar -O /usr/local/bin/composer \
@@ -11,7 +13,7 @@ WORKDIR /app
 
 RUN composer global require hirak/prestissimo \
     && php -dmemory_limit=-1 /usr/local/bin/composer create-project --no-interaction --ignore-platform-reqs --prefer-dist --no-dev --no-progress \
-        akeneo/pim-community-standard . "3.1.*@stable" \
+        akeneo/pim-community-standard . "${VERSION}.*@stable" \
     && rm -rf /app/var/*
 
 COPY parameters.yml /app/app/config/parameters.yml

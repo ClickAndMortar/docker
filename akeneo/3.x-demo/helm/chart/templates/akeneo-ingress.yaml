@@ -1,23 +1,25 @@
-{{- if .Values.akeneo.ingress }}
+{{- if .Values.akeneo.ingress.enabled }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/name: akeneo
+    app.kubernetes.io/part-of: akeneo
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-    {{- if .Values.akeneo.certmanagerClusterIssuer }}
-    certmanager.k8s.io/cluster-issuer: {{ .Values.akeneo.certmanagerClusterIssuer }}
+    {{- if .Values.akeneo.ingress.certmanagerClusterIssuer }}
+    certmanager.k8s.io/cluster-issuer: {{ .Values.akeneo.ingress.certmanagerClusterIssuer }}
     {{- end }}
   name: akeneo-ingress
-  namespace: {{ .Values.namespace }}
 spec:
   rules:
-  - host: {{ .Values.akeneo.hostname }}
+  - host: {{ .Values.akeneo.ingress.hostname }}
     http:
       paths:
       - backend:
-          serviceName: akeneo
+          serviceName: akeneo-service
           servicePort: 8080
         path: /
   {{- if .Values.akeneo.https }}

@@ -2,7 +2,9 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: akeneo-init
-  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: akeneo-init
+    app.kubernetes.io/part-of: akeneo
 spec:
   backoffLimit: 3
   activeDeadlineSeconds: 180
@@ -10,7 +12,7 @@ spec:
     spec:
       containers:
         - name: akeneo-init
-          image: {{ .Values.akeneo.image }}
-          imagePullPolicy: Always
+          image: {{ include "akeneo.image" . }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           command: ["/usr/local/bin/pim-init-db.sh"]
       restartPolicy: Never

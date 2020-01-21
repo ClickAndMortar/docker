@@ -1,0 +1,23 @@
+imagePullPolicy: Always
+
+akeneo:
+  version: 3.2
+  # Use an Ingress (requires an Ingress Controller)
+  ingress:
+    enabled: false
+    # Hostname for Ingress
+    hostname: my-akeneo.domain.com
+    # Enable HTTPS and SSL certificate request
+    https: false
+    # CertManager's ClusterIssuer used to issue SSL certificate
+    certmanagerClusterIssuer: letsencrypt-prod
+
+mysql:
+  image: mysql:5.7
+  storage: 20Gi
+
+elasticsearch:
+  image: elasticsearch:6.5.4
+  replicas: 2
+  memory: 1g
+  storage: 10Gi

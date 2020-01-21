@@ -2,31 +2,33 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: akeneo-queue-consumer
-  namespace: {{ .Values.namespace }}
   labels:
     app.kubernetes.io/name: akeneo-queue-consumer
-    app.kubernetes.io/version: "3.1"
+    app.kubernetes.io/version: {{ .Values.akeneo.version | quote }}
     app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: akeneo
 spec:
   replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: akeneo-queue-consumer
-      app.kubernetes.io/version: "3.1"
+      app.kubernetes.io/version: {{ .Values.akeneo.version | quote }}
       app.kubernetes.io/component: backend
+      app.kubernetes.io/part-of: akeneo
   template:
     metadata:
       labels:
         app.kubernetes.io/name: akeneo-queue-consumer
-        app.kubernetes.io/version: "3.1"
+        app.kubernetes.io/version: {{ .Values.akeneo.version | quote }}
         app.kubernetes.io/component: backend
+        app.kubernetes.io/part-of: akeneo
     spec:
       containers:
       - name: akeneo
-        image: {{ .Values.akeneo.image }}
+        image: {{ include "akeneo.image" . }}
         command: ["/app/bin/console"]
         args: ["akeneo:batch:job-queue-consumer-daemon", "--env=prod"]
-        imagePullPolicy: Always
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
         env:
         - name: APP_ENV
           value: prod

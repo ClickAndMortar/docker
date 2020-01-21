@@ -2,7 +2,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pv-claim
-  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/part-of: akeneo
 spec:
   storageClassName: standard
   accessModes:

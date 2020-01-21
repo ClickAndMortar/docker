@@ -2,7 +2,6 @@ apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: es-master
-  namespace: {{ .Values.namespace }}
   labels:
     app.kubernetes.io/name: elasticsearch
     app.kubernetes.io/version: "6.5"
@@ -17,6 +16,7 @@ spec:
         app.kubernetes.io/name: elasticsearch
         app.kubernetes.io/version: "6.5"
         app.kubernetes.io/component: database
+        app.kubernetes.io/part-of: akeneo
         role: master
     spec:
       initContainers:
