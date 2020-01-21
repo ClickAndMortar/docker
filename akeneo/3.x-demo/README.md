@@ -20,7 +20,7 @@ helm install helm/chart/ --name=akeneo-demo --namespace=akeneo --set-string aken
 Then run:
 
 ```bash
-kubectl -n akeneo port-forward svc/akeneo 8080
+kubectl -n akeneo port-forward svc/akeneo-service 8080
 ```
 
 Open http://localhost:8080 and login with `admin` / `admin`.
