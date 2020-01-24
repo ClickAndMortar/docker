@@ -47,7 +47,7 @@ spec:
         - name: "discovery.zen.minimum_master_nodes"
           value: "2"
         - name: "discovery.zen.ping.unicast.hosts"
-          value: "elasticsearch-discovery"
+          value: "elasticsearch-discovery-service"
         - name: "discovery.type"
           value: zen
         - name: ES_JAVA_OPTS

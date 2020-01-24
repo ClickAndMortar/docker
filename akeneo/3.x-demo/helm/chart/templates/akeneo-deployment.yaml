@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/component: frontend
     app.kubernetes.io/part-of: akeneo
 spec:
-  replicas: 1
+  replicas: {{ .Values.akeneo.replicas }}
   selector:
     matchLabels:
       app.kubernetes.io/name: akeneo

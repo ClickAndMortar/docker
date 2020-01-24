@@ -2,6 +2,8 @@ imagePullPolicy: Always
 
 akeneo:
   version: 3.2
+  # Replicas >= 2 require a shared session storage (ie. DB, Redis)
+  replicas: 1
   # Use an Ingress (requires an Ingress Controller)
   ingress:
     enabled: false

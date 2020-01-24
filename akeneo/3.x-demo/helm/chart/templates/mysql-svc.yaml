@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: mysql-service
   labels:
     app.kubernetes.io/part-of: akeneo
 spec:

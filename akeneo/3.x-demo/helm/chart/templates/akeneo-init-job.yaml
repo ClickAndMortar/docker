@@ -5,6 +5,9 @@ metadata:
   labels:
     app.kubernetes.io/name: akeneo-init
     app.kubernetes.io/part-of: akeneo
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   backoffLimit: 3
   activeDeadlineSeconds: 180

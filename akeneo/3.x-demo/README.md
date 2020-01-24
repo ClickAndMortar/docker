@@ -13,11 +13,11 @@ Those can be used to easily deploy a working demo of Akeneo 3.x 🚀.
 
 Available configuration values:
 
-
 | Name | Default | Info |
 |---|---|---|
 | `akeneo.version` | `3.2` | Version to install / use (must be >= 3.1) |
 | `akeneo.image` | none | Custom Docker image to use (must listen for HTTP) |
+| `akeneo.replicas` | `1` | Number of Akeneo instances |
 | `akeneo.ingress.enabled` | `false` | Enable use of Ingress |
 | `akeneo.ingress.hostname` | none | Hostname for Ingress |
 | `akeneo.ingress.https` | `false` | Enable HTTPS for Ingress |
