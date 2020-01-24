@@ -8,4 +8,4 @@ spec:
     app.kubernetes.io/part-of: akeneo
   ports:
   - name: http
-    port: 8080
+    port: {{ .Values.akeneo.port }}

@@ -11,6 +11,27 @@ Those can be used to easily deploy a working demo of Akeneo 3.x 🚀.
 
 ### With Kubernetes, using Helm
 
+Available configuration values:
+
+
+| Name | Default | Info |
+|---|---|---|
+| `akeneo.version` | `3.2` | Version to install / use (must be >= 3.1) |
+| `akeneo.image` | none | Custom Docker image to use (must listen for HTTP) |
+| `akeneo.ingress.enabled` | `false` | Enable use of Ingress |
+| `akeneo.ingress.hostname` | none | Hostname for Ingress |
+| `akeneo.ingress.https` | `false` | Enable HTTPS for Ingress |
+| `akeneo.ingress.certmanagerClusterIssuer` | none | Cert Manager Cluster Issuer name |
+| `akeneo.port` | `8080` | HTTP port the image is listening on |
+| `mysql.image` | `mysql:5.7` | MySQL image to use |
+| `mysql.storage.size` | `20Gi` | Size of MySQL Persistent Volume |
+| `mysql.storage.class` | `standard` | Storage Class of MySQL PV |
+| `elasticsearch.image` | `elasticsearch:6.5.4` | Elasticsearch image to use |
+| `elasticsearch.replicas` | `2` | Elasticsearch nodes (must be >= 2) |
+| `elasticsearch.memory` | `1g` | Memory allocated per ES node |
+| `elasticsearch.storage.size` | `10Gi` | Size of ES Persistent Volume |
+| `elasticsearch.storage.class` | `standard` | Storage Class of ES PV |
+
 #### Without Ingress
 
 ```bash
@@ -42,7 +63,7 @@ Once you're done giving Akeneo a try, you may delete the whole stack:
 helm delete --purge akeneo-demo
 ```
 
-### With Docker
+### With `docker-compose`
 
 > _Optional step: build the image running `make build` within this directory._
 
@@ -76,12 +97,13 @@ Then open http://localhost:3380.
 
 ## Enhancements
 
-- [x] Automatically run DB installer (`pim:installer:db` command) on deployment: init Job created
 - [ ] Use `ConfigMap`s for vhost, PHP config and `parameters.yml`
 - [ ] Use environment variables for config within `parameters.yml`
+- [ ] Add resources for workloads
 - [ ] Store passwords in Secrets
+- [ ] Setup Akeneo cron tasks as Kubernetes `CronJob`s
+- [x] Automatically run DB installer (`pim:installer:db` command) on deployment: init Job created
 - [x] Test scaling up Akeneo deployment: ✅ once DB is initialized
 - [x] Run a separate Deployment for the queue consumer
-- [ ] Setup Akeneo cron tasks as Kubernetes `CronJob`s
 - [x] Remove mandatory use Ingress Controller
-- [ ] Allow using a custom Akeneo image
+- [x] Allow using a custom Akeneo image

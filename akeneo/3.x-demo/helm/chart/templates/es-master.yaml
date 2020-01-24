@@ -66,8 +66,8 @@ spec:
   - metadata:
       name: storage
     spec:
-      storageClassName: standard
+      storageClassName: {{ .Values.elasticsearch.storage.class }}
       accessModes: [ ReadWriteOnce ]
       resources:
         requests:
-          storage: {{ .Values.elasticsearch.storage }}
+          storage: {{ .Values.elasticsearch.storage.size }}

@@ -20,7 +20,7 @@ spec:
       paths:
       - backend:
           serviceName: akeneo-service
-          servicePort: 8080
+          servicePort: {{ .Values.akeneo.port }}
         path: /
   {{- if .Values.akeneo.ingress.https }}
   tls:

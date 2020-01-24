@@ -5,9 +5,9 @@ metadata:
   labels:
     app.kubernetes.io/part-of: akeneo
 spec:
-  storageClassName: standard
+  storageClassName: {{ .Values.mysql.storage.class }}
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.mysql.storage }}
+      storage: {{ .Values.mysql.storage.size }}
