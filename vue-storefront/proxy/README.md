@@ -41,4 +41,8 @@ app.get('/cache-version.json', cacheVersion)
 
 ## Enhancements
 
-* Allow exluding query string params from cache key (ie. Google Analytics tracking `utm_*`) trough an environment variable
+* [ ] Allow exluding query string params from cache key (ie. Google Analytics tracking `utm_*`) trough an environment variable
+
+## License
+
+VSF Proxy source code is completely free and released under the [MIT License](https://github.com/ClickAndMortar/Docker/blob/master/LICENSE).
