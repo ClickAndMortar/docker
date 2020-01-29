@@ -4,7 +4,9 @@
 
 For every `GET` request, this proxy does the following:
 
-* Fetch cache version from VSF (if not already cached, cache in Redis otherwise)
+* If requested URI is a static asset, skip and default to proxying VSF
+* Remove unnecessary Query String params from request URI (ie. `utm_` ones) to increase cache-hit ratio
+* Fetch cache version from VSF (if not already cached, cache in Redis for 60 seconds otherwise)
 * Fetch full page cache from Redis
   * If available, return it (including headers)
   * If not available, default to proxying VSF (which will then cache the page in Redis)
@@ -19,6 +21,7 @@ Following environment variables **must** be set:
 * `VSF_BACKEND_PORT`: port of VSF backend (ie. `3000`)
 * `REDIS_HOST`: hostname of Redis instance
 * `REDIS_PORT`: hostname of Redis instance (ie. `6379`)
+* `VSF_CACHE_REMOVE_QS_ARGS`: Query String params to remove to increase cache-hit ratio (separated by a comma, no whitespace), in addition to default ones (see [`redis_fpc.lua`](lua/redis_fpc.lua))
 
 ## Requirements
 
@@ -41,7 +44,8 @@ app.get('/cache-version.json', cacheVersion)
 
 ## Enhancements
 
-* [ ] Allow exluding query string params from cache key (ie. Google Analytics tracking `utm_*`) trough an environment variable
+* [x] Allow exluding query string params from cache key (ie. Google Analytics tracking `utm_*`) trough an environment variable
+* [x] Exclude assets based on extensions (ie. `.js`, `.css`, etc.)
 
 ## License
 
