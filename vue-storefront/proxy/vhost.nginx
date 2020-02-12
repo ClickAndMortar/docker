@@ -8,8 +8,12 @@ server {
     resolver local=on ipv6=off;
     resolver_timeout 5s;
 
-    set_by_lua_block $vsf_backend_host {
-      return os.getenv("VSF_BACKEND_HOST")
+    set_by_lua_block $vsf_backend_host_full {
+      return os.getenv("VSF_BACKEND_HOST") .. ":" .. os.getenv("VSF_BACKEND_PORT")
+    }
+
+    set_by_lua_block $vsf_api_backend_host_full {
+      return os.getenv("VSF_API_BACKEND_HOST") .. ":" .. os.getenv("VSF_API_BACKEND_PORT")
     }
 
     location / {
@@ -17,13 +21,27 @@ server {
           rewrite_by_lua_file /etc/nginx/lua/redis_fpc.lua;
         }
 
-        proxy_pass http://$vsf_backend_host;
+        proxy_pass http://$vsf_backend_host_full;
+    }
+
+    location /api {
+        if ( $request_method = 'GET' ) {
+          rewrite_by_lua_file /etc/nginx/lua/redis_fpc.lua;
+        }
+
+        proxy_pass http://$vsf_api_backend_host_full;
     }
 
     location /_vsf {
       rewrite ^/_vsf/(.*)$ /$1 break;
 
-      proxy_pass http://$vsf_backend_host;
+      proxy_pass http://$vsf_backend_host_full;
+    }
+
+    location /_vsf_api {
+      rewrite ^/_vsf_api/(.*)$ /$1 break;
+
+      proxy_pass http://$vsf_api_backend_host_full;
     }
 
     gzip on;

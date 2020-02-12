@@ -37,6 +37,13 @@ if match ~= nil then
     return
 end
 
+-- Check if requested app is VSF or VSF API based on request URI
+local match = string.match(ngx.var.request_uri, "^/api")
+local api = false
+if match ~= nil then
+    api = true
+end
+
 -- Remove unnecessary query params to increase cache hit
 local argsToRemove = { "gclid", "utm", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content" }
 
@@ -69,7 +76,12 @@ if not ok then
     return
 end
 
-local cacheVersion, err = red:get("cache-version")
+local app = "vsf"
+if api then
+    app = "vsf-api"
+end
+local cacheVersionKey = "cache-version-" .. app
+local cacheVersion, err = red:get(cacheVersionKey)
 if not cacheVersion then
     ngx.log(ngx.INFO, "Failed to get cache version: ", err)
     return
@@ -79,10 +91,14 @@ local count
 
 -- Fetch cache version from VSF and store it in Redis
 if cacheVersion == ngx.null then
+    local location = "_vsf"
+    if api then
+        location = location .. "_api"
+    end
     ngx.log(ngx.INFO, "Cache version not found, creating it")
-    local cacheVersionRes = ngx.location.capture("/_vsf/cache-version.json")
+    local cacheVersionRes = ngx.location.capture("/" .. location .. "/cache-version.json")
     cacheVersion, count = string.gsub(cacheVersionRes.body, "\"", "")
-    red:set("cache-version", cacheVersion, "EX", "60") -- EX 60 = TTL 60 seconds
+    red:set(cacheVersionKey, cacheVersion, "EX", "60") -- EX 60 = TTL 60 seconds
 end
 
 -- Using ngx.var.uri and ngx.var.args because ngx.var.request_uri is unchanged by ngx.req.set_uri_args
@@ -91,6 +107,9 @@ if ngx.var.args ~= nil and ngx.var.args ~= '' then
     cacheUri = cacheUri .. '?' .. ngx.var.args
 end
 local cacheKey = cacheVersion .. "data:page:" .. cacheUri
+if api then
+    cacheKey = "data:api:" .. cacheUri
+end
 local cachedContent, err = red:get(cacheKey)
 if not cachedContent or cachedContent == ngx.null then
     ngx.log(ngx.INFO, "Failed to get cached content: ", err)
