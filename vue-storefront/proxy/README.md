@@ -1,10 +1,10 @@
 # Vue StoreFront proxy
 
-[OpenResty](http://openresty.org/) based reverse proxy serving cached pages from Redis without [Vue StoreFront](https://www.vuestorefront.io/) calls, using LUA.
+[OpenResty](http://openresty.org/) based reverse proxy serving cached pages from Redis without [Vue StoreFront](https://www.vuestorefront.io/) (VSF or VSF API) calls, using LUA.
 
 For every `GET` request, this proxy does the following:
 
-* If requested URI is a static asset, skip and default to proxying VSF
+* If requested URI is a static asset, skip and default to proxying VSF or VSF API
 * Remove unnecessary Query String params from request URI (ie. `utm_` ones) to increase cache-hit ratio
 * Fetch cache version from VSF (if not already cached, cache in Redis for 60 seconds otherwise)
 * Fetch full page cache from Redis
@@ -19,13 +19,15 @@ Following environment variables **must** be set:
 
 * `VSF_BACKEND_HOST`: hostname (without HTTP or port) of VSF backend
 * `VSF_BACKEND_PORT`: port of VSF backend (ie. `3000`)
+* `VSF_API_BACKEND_HOST`: hostname (without HTTP or port) of VSF API backend
+* `VSF_API_BACKEND_PORT`: port of VSF API backend (ie. `3000`)
 * `REDIS_HOST`: hostname of Redis instance
 * `REDIS_PORT`: hostname of Redis instance (ie. `6379`)
 * `VSF_CACHE_REMOVE_QS_ARGS`: Query String params to remove to increase cache-hit ratio (separated by a comma, no whitespace), in addition to default ones (see [`redis_fpc.lua`](lua/redis_fpc.lua))
 
 ## Requirements
 
-The following patch in VSF code is required to expose the cache version:
+The following patch in **VSF** code is required to expose the cache version:
 
 `core/scripts/server.[js|ts]`
 ```js
