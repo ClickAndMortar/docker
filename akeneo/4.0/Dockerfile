@@ -1,0 +1,59 @@
+FROM php:7.3-apache AS php-builder
+
+MAINTAINER Click & Mortar <contact@clickandmortar.fr>
+
+ARG VERSION=4.0
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y git wget zip zlib1g-dev libicu-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev libmagickwand-dev libzip-dev \
+    && wget -q https://getcomposer.org/composer-1.phar -O /usr/local/bin/composer \
+    && chmod +x /usr/local/bin/composer
+
+COPY pim-init-db.sh /usr/local/bin/pim-init-db.sh
+COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf
+
+RUN pecl install imagick \
+    && docker-php-ext-enable imagick \
+    && pecl install apcu \
+    && docker-php-ext-enable apcu \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
+    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install bcmath \
+    && docker-php-ext-install zip \
+    && docker-php-ext-install exif \
+    && docker-php-ext-install opcache \
+    && a2enmod rewrite \
+    && wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -O /usr/local/bin/wait-for-it.sh \
+    && chmod +x /usr/local/bin/wait-for-it.sh \
+    && chmod +x /usr/local/bin/pim-init-db.sh
+
+WORKDIR /app
+
+RUN composer global require hirak/prestissimo \
+    && php -dmemory_limit=4G /usr/local/bin/composer create-project --no-interaction --ignore-platform-reqs --prefer-dist --no-dev --no-progress \
+        akeneo/pim-community-standard . "${VERSION}.*@stable"
+
+RUN bin/console --env=prod pim:installer:assets --clean \
+    && bin/console pim:installer:dump-require-paths --env=prod
+
+# NodeJS
+FROM node:10 AS js-builder
+
+WORKDIR /app
+
+COPY --from=php-builder /app /app
+
+RUN yarn install && yarn run webpack && rm -rf node_modules
+
+# Apache + mod_php server
+FROM php-builder as php-prod
+
+COPY --from=js-builder /app /app
+
+WORKDIR /app
+
+RUN rm -rf var/* && chown www-data:www-data var
