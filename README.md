@@ -2,6 +2,7 @@
 
 * Akeneo
   * [Akeneo 3.x Demo](akeneo/3.x-demo)
+  * [Akeneo 4.0 Demo](akeneo/4.0-demo)
 * [Apache + PHP](apache-php)
 * [Composer](composer)
   * [PHP 7.2](composer/php-7.2)
