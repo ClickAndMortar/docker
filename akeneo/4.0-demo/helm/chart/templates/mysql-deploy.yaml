@@ -1,3 +1,4 @@
+{{- if not .Values.mysql.external }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,3 +50,4 @@ spec:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
           claimName: {{ include "akeneo.fullname" . }}-mysql-pvc
+{{- end }}

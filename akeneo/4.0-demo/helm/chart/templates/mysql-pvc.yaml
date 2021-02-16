@@ -1,3 +1,4 @@
+{{- if not .Values.mysql.external }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -11,3 +12,4 @@ spec:
   resources:
     requests:
       storage: {{ .Values.mysql.storage.size }}
+{{- end }}

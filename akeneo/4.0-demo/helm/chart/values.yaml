@@ -21,6 +21,7 @@ akeneo:
   port: 80
 
 mysql:
+  external: false
   image: mysql:8.0
   user: akeneo
   password: akeneo
@@ -33,6 +34,7 @@ mysql:
     class: standard
 
 elasticsearch:
+  external: false
   image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.5.2
   # Specify when external
   # host: elasticsearch

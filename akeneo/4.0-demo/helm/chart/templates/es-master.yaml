@@ -1,3 +1,4 @@
+{{- if not .Values.elasticsearch.external }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -34,10 +35,6 @@ spec:
           value: {{ include "akeneo.fullname" . }}-es-cluster
         - name: "network.host"
           value: 0.0.0.0
-{{/*        - name: "discovery.zen.minimum_master_nodes"*/}}
-{{/*          value: {{ .Values.elasticsearch.minMasterNodes | quote }}*/}}
-{{/*        - name: "discovery.zen.ping.unicast.hosts"*/}}
-{{/*          value: {{ include "akeneo.fullname" . }}-es-discovery-service.{{ .Release.Namespace }}.svc.cluster.local*/}}
         - name: "discovery.type"
           value: single-node
         - name: ES_JAVA_OPTS
@@ -72,3 +69,4 @@ spec:
       resources:
         requests:
           storage: {{ .Values.elasticsearch.storage.size }}
+{{- end }}

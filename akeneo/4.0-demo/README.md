@@ -16,17 +16,25 @@ Available configuration values:
 | Name | Default | Info |
 |---|---|---|
 | `akeneo.version` | `4.0` | Version to install / use |
-| `akeneo.image` | none | Custom Docker image to use (must listen for HTTP) |
+| `akeneo.image` | `clickandmortar/akeneo:4.0-demo` | Custom Docker image to use (must listen for HTTP) |
 | `akeneo.replicas` | `1` | Number of Akeneo instances |
 | `akeneo.ingress.enabled` | `false` | Enable use of Ingress |
 | `akeneo.ingress.hostname` | none | Hostname for Ingress |
 | `akeneo.ingress.https` | `false` | Enable HTTPS for Ingress |
 | `akeneo.ingress.certmanagerClusterIssuer` | none | Cert Manager Cluster Issuer name |
 | `akeneo.port` | `80` | HTTP port the image is listening on |
+| `mysql.external` | `false` | Use external MySQL |
 | `mysql.image` | `mysql:8.0` | MySQL image to use |
+| `mysql.user` | `akeneo` | MySQL username |
+| `mysql.password` | `akeneo` | MySQL password |
+| `mysql.host` | Auto-generated | MySQL host |
+| `mysql.port` | `3306` | MySQL port |
 | `mysql.storage.size` | `20Gi` | Size of MySQL Persistent Volume |
 | `mysql.storage.class` | `standard` | Storage Class of MySQL PV |
+| `elasticsearch.external` | `false` | Use external Elasticsearch |
 | `elasticsearch.image` | `docker.elastic.co/elasticsearch/elasticsearch-oss:7.5.2` | Elasticsearch image to use |
+| `elasticsearch.host` | Auto-generated | Elasticsearch host |
+| `elasticsearch.port` | `9200` | Elasticsearch port |
 | `elasticsearch.memory` | `512m` | Memory allocated to ES |
 | `elasticsearch.storage.size` | `10Gi` | Size of ES Persistent Volume |
 | `elasticsearch.storage.class` | `standard` | Storage Class of ES PV |
@@ -61,3 +69,16 @@ Once you're done giving Akeneo a try, you may delete the whole stack:
 ```bash
 helm delete --purge akeneo-demo
 ```
+
+## Coming enhancements
+
+- [ ] Add resources for workloads
+- [ ] Setup Akeneo cron tasks as Kubernetes `CronJob`s
+- [ ] Add support for Redis for cache and/or sessions
+- [x] Refactor Dockerfile
+- [ ] Build base image suitable for custom Akeneo install
+- [ ] Switch to Composer 2
+- [ ] Make DB init and admin user create optional
+- [x] Allow usage of external MySQL / Elasticsearch
+- [ ] Add affinities support
+- [ ] And taint/tolerations support

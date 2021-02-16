@@ -13,19 +13,11 @@ COPY pim-init-db.sh /usr/local/bin/pim-init-db.sh
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf
 
-RUN pecl install imagick \
-    && docker-php-ext-enable imagick \
-    && pecl install apcu \
-    && docker-php-ext-enable apcu \
+RUN pecl install imagick apcu redis \
+    && docker-php-ext-enable imagick redis apcu \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-configure intl \
-    && docker-php-ext-install intl \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install bcmath \
-    && docker-php-ext-install zip \
-    && docker-php-ext-install exif \
-    && docker-php-ext-install opcache \
+    && docker-php-ext-install intl pdo_mysql bcmath zip exif opcache \
     && a2enmod rewrite \
     && wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -O /usr/local/bin/wait-for-it.sh \
     && chmod +x /usr/local/bin/wait-for-it.sh \
@@ -34,7 +26,8 @@ RUN pecl install imagick \
 WORKDIR /app
 
 RUN composer global require hirak/prestissimo \
-    && php -dmemory_limit=4G /usr/local/bin/composer create-project --no-interaction --ignore-platform-reqs --prefer-dist --no-dev --no-progress \
+    && php -dmemory_limit=4G /usr/local/bin/composer create-project \
+    --no-interaction --ignore-platform-reqs --prefer-dist --no-dev --no-progress \
         akeneo/pim-community-standard . "${VERSION}.*@stable"
 
 RUN bin/console --env=prod pim:installer:assets --clean \
