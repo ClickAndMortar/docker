@@ -28,6 +28,11 @@ spec:
                 name:  {{ include "akeneo.fullname" . }}-configmap
             - secretRef:
                 name:  {{ include "akeneo.fullname" . }}-secret
-          ports:
-            - containerPort: {{ .Values.akeneo.port }}
-              name: http
+          volumeMounts:
+            - mountPath: /app/config/packages/prod/oneup_flysystem.yml
+              name: config-files
+              subPath: oneup_flysystem.yml
+      volumes:
+        - name: config-files
+          configMap:
+            name: {{ include "akeneo.fullname" . }}-files-configmap

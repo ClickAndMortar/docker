@@ -45,3 +45,20 @@ elasticsearch:
   storage:
     size: 10Gi
     class: standard
+
+objectStorage:
+  enabled: true
+  bucket: akeneo
+  # Specify region when using AWS S3
+  region: region-id
+  adapter: s3
+  minio:
+    enabled: true
+    port: 9000
+    # Override this value with any string
+    username: b02a9587ea6bdd29979084250b6dd8d79e7cbaf73db1b248f66247ce8aa05d3f
+    # Override this value with any string
+    password: 39967b6f175585c3d2914577dde1256a2cc992eebf5964552b7567067cafb910
+    storage:
+      size: 10Gi
+      class: standard

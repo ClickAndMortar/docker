@@ -25,10 +25,13 @@ RUN pecl install imagick apcu redis \
 
 WORKDIR /app
 
+ENV COMPOSER_MEMORY_LIMIT=4G
+
 RUN composer global require hirak/prestissimo \
-    && php -dmemory_limit=4G /usr/local/bin/composer create-project \
+    && php /usr/local/bin/composer create-project \
     --no-interaction --ignore-platform-reqs --prefer-dist --no-dev --no-progress \
-        akeneo/pim-community-standard . "${VERSION}.*@stable"
+        akeneo/pim-community-standard . "${VERSION}.*@stable" \
+    && composer require league/flysystem-aws-s3-v3:^1.0
 
 RUN bin/console --env=prod pim:installer:assets --clean \
     && bin/console pim:installer:dump-require-paths --env=prod
@@ -49,4 +52,6 @@ COPY --from=js-builder /app /app
 
 WORKDIR /app
 
-RUN rm -rf var/* && chown www-data:www-data var
+RUN rm -rf var/* \
+    && mkdir -p public/media \
+    && chown www-data:www-data var public/media

@@ -38,6 +38,16 @@ Available configuration values:
 | `elasticsearch.memory` | `512m` | Memory allocated to ES |
 | `elasticsearch.storage.size` | `10Gi` | Size of ES Persistent Volume |
 | `elasticsearch.storage.class` | `standard` | Storage Class of ES PV |
+| `objectStorage.enabled` | `true` | Use external object storage (uses Minio) |
+| `objectStorage.bucket` | `akeneo` | Name of bucket |
+| `objectStorage.region` | `us-east-1` | AWS Region (when applicable) |
+| `objectStorage.adapter` | `s3` | Object storage adapter (only S3 supported at the moment) |
+| `objectStorage.minio.enabled` | `true` | Install Minio |
+| `objectStorage.minio.port` | `9000` | Minio port |
+| `objectStorage.minio.username` | See `values.yaml` | Username / access key |
+| `objectStorage.minio.password` | See `values.yaml` | Password / access secret |
+| `objectStorage.minio.storage.size` | `10Gi` | Minio persistent storage size |
+| `objectStorage.minio.storage.class` | `standard` | Minio persistent storage class |
 
 #### Without Ingress
 
@@ -72,7 +82,7 @@ helm delete --purge akeneo-demo
 
 ## Coming enhancements
 
-- [ ] Add shared storage for jobs (Minio or `PersistentVolume` with `ReadWriteMany` support)
+- [x] Add shared storage for jobs (Minio or `PersistentVolume` with `ReadWriteMany` support)
 - [ ] Add resources for workloads
 - [ ] Setup Akeneo cron tasks as Kubernetes `CronJob`s
 - [ ] Add support for Redis for cache and/or sessions
