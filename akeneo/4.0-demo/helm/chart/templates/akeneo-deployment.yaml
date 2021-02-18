@@ -33,6 +33,12 @@ spec:
           initialDelaySeconds: 3
           tcpSocket:
             port: {{ .Values.akeneo.port }}
+        livenessProbe:
+          httpGet:
+            path: /user/login
+            port: {{ .Values.akeneo.port }}
+          initialDelaySeconds: 10
+          timeoutSeconds: 10
         volumeMounts:
           - mountPath: /app/config/packages/prod/oneup_flysystem.yml
             name: config-files

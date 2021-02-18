@@ -82,14 +82,15 @@ helm delete --purge akeneo-demo
 
 ## Coming enhancements
 
-- [x] Add shared storage for jobs (Minio or `PersistentVolume` with `ReadWriteMany` support)
+- [x] ~~Add shared storage for jobs (Minio or `PersistentVolume` with `ReadWriteMany` support)~~
 - [ ] Add resources for workloads
 - [ ] Setup Akeneo cron tasks as Kubernetes `CronJob`s
-- [ ] Add support for Redis for cache and/or sessions
-- [x] Refactor Dockerfile
+- [x] ~~Add support for Redis for cache and/or sessions~~ Sessions are natively stored in `pim_session` table
+- [x] ~~Refactor Dockerfile~~
 - [ ] Build base image suitable for custom Akeneo install
 - [ ] Switch to Composer 2
 - [ ] Make DB init and admin user create optional
-- [x] Allow usage of external MySQL / Elasticsearch
+- [x] ~~Allow usage of external MySQL / Elasticsearch~~
 - [ ] Add affinities support
 - [ ] And taint/tolerations support
+- [ ] Use external Helm charts (ES, MySQL, Minio) ?
