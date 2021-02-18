@@ -72,6 +72,7 @@ helm delete --purge akeneo-demo
 
 ## Coming enhancements
 
+- [ ] Add shared storage for jobs (Minio or `PersistentVolume` with `ReadWriteMany` support)
 - [ ] Add resources for workloads
 - [ ] Setup Akeneo cron tasks as Kubernetes `CronJob`s
 - [ ] Add support for Redis for cache and/or sessions
