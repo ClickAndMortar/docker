@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "akeneo.fullname" . }}-configmap
+  labels:
+    {{- include "akeneo.labels" . | nindent 4 }}
+data:
+  APP_ENV: prod
+  APP_DATABASE_HOST: {{ .Values.mysql.host | default (printf "%s-mysql-service.%s.svc.cluster.local" (include "akeneo.fullname" .) .Release.Namespace) }}
+  APP_DATABASE_PORT: {{ .Values.mysql.port | quote }}
+  APP_DATABASE_NAME: {{ .Values.mysql.database }}
+  APP_DATABASE_USER: {{ .Values.mysql.user }}
+  APP_INDEX_HOSTS: {{ .Values.elasticsearch.host | default (printf "%s-es-service.%s.svc.cluster.local" (include "akeneo.fullname" .) .Release.Namespace) }}:{{ .Values.elasticsearch.port }}

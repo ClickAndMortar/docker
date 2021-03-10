@@ -1,0 +1,27 @@
+{{- if .Values.akeneo.ingress.enabled }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "akeneo.fullname" . }}-ingress
+  labels:
+    {{- include "akeneo.labels" . | nindent 4 }}
+  annotations:
+    {{- if .Values.akeneo.ingress.certmanagerClusterIssuer }}
+    certmanager.k8s.io/cluster-issuer: {{ .Values.akeneo.ingress.certmanagerClusterIssuer }}
+    {{- end }}
+spec:
+  rules:
+  - host: {{ .Values.akeneo.ingress.hostname }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ include "akeneo.fullname" . }}-service
+          servicePort: {{ .Values.akeneo.port }}
+        path: /
+  {{- if .Values.akeneo.ingress.https }}
+  tls:
+  - hosts:
+    - {{ .Values.akeneo.ingress.hostname }}
+    secretName: {{ include "akeneo.fullname" . }}-tls-cert
+  {{- end }}
+{{- end }}

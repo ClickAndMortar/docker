@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "akeneo.fullname" . }}-init-job
+  labels:
+    {{- include "akeneo.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 600
+  template:
+    spec:
+      containers:
+        - name: akeneo-init
+          image: {{ include "akeneo.image" . }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          command: ["/usr/local/bin/pim-init-db.sh"]
+          envFrom:
+            - configMapRef:
+                name:  {{ include "akeneo.fullname" . }}-configmap
+            - secretRef:
+                name:  {{ include "akeneo.fullname" . }}-secret
+      restartPolicy: Never

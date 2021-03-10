@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "akeneo.fullname" . }}-files-configmap
+  labels:
+    {{- include "akeneo.labels" . | nindent 4 }}
+data:
+  oneup_flysystem.yml: |
+    services:
+      akeneo.s3_client:
+          class: Aws\S3\S3Client
+          arguments:
+              -
+                  version: 'latest'
+                  region: {{ .Values.objectStorage.region }}
+                  endpoint: http://{{ include "akeneo.fullname" . }}-minio-service.{{ .Release.Namespace }}.svc.cluster.local:9000
+                  use_path_style_endpoint: true
+                  credentials:
+                      key: {{ .Values.objectStorage.minio.username }}
+                      secret: {{ .Values.objectStorage.minio.password }}
+    oneup_flysystem:
+      adapters:
+          asset_storage_adapter:
+              nulladapter: ~
+          catalog_storage_adapter:
+              awss3v3:
+                  client: akeneo.s3_client
+                  bucket: {{ .Values.objectStorage.bucket }}
+                  prefix: catalog
+          jobs_storage_adapter:
+              awss3v3:
+                  client: akeneo.s3_client
+                  bucket: {{ .Values.objectStorage.bucket }}
+                  prefix: jobs
+          archivist_adapter:
+              awss3v3:
+                  client: akeneo.s3_client
+                  bucket: {{ .Values.objectStorage.bucket }}
+                  prefix: archive

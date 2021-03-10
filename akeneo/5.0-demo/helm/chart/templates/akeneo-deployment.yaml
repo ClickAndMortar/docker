@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "akeneo.fullname" . }}-deployment
+  labels:
+    {{- include "akeneo.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.akeneo.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      name: {{ include "akeneo.name" . }}
+      role: web
+  template:
+    metadata:
+      labels:
+        {{- include "akeneo.labels" . | nindent 8 }}
+        role: web
+    spec:
+      containers:
+      - name: php
+        image: {{ include "akeneo.image" . }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        envFrom:
+          - configMapRef:
+              name:  {{ include "akeneo.fullname" . }}-configmap
+          - secretRef:
+              name:  {{ include "akeneo.fullname" . }}-secret
+        ports:
+        - containerPort: {{ .Values.akeneo.port }}
+          name: http
+        readinessProbe:
+          initialDelaySeconds: 3
+          tcpSocket:
+            port: {{ .Values.akeneo.port }}
+        livenessProbe:
+          httpGet:
+            path: /user/login
+            port: {{ .Values.akeneo.port }}
+          initialDelaySeconds: 10
+          timeoutSeconds: 10
+        volumeMounts:
+          - mountPath: /app/config/packages/prod/oneup_flysystem.yml
+            name: config-files
+            subPath: oneup_flysystem.yml
+      volumes:
+        - name: config-files
+          configMap:
+            name: {{ include "akeneo.fullname" . }}-files-configmap

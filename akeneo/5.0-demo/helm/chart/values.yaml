@@ -1,0 +1,64 @@
+imagePullPolicy: Always
+
+akeneo:
+  version: 5.0
+  # Replicas >= 2 require a shared session storage (ie. DB, Redis)
+  replicas: 1
+  # Use an Ingress (requires an Ingress Controller)
+  ingress:
+    enabled: false
+
+    # Hostname for Ingress
+    # hostname: my-akeneo.domain.com
+
+    # Enable HTTPS and SSL certificate request
+    https: false
+
+    # CertManager's ClusterIssuer used to issue SSL certificate
+    # certmanagerClusterIssuer: letsencrypt-prod
+
+  # Port the container is listening on
+  port: 80
+
+mysql:
+  external: false
+  image: mysql:8.0
+  user: akeneo
+  password: akeneo
+  # Specify when external
+  # host: mysql
+  port: 3306
+  database: akeneo
+  storage:
+    size: 20Gi
+    class: standard
+
+elasticsearch:
+  external: false
+  image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.5.2
+  # Specify when external
+  # host: elasticsearch
+  port: 9200
+  replicas: 1
+  minMasterNodes: 1
+  memory: 512m
+  storage:
+    size: 10Gi
+    class: standard
+
+objectStorage:
+  enabled: true
+  bucket: akeneo
+  # Specify region when using AWS S3
+  region: region-id
+  adapter: s3
+  minio:
+    enabled: true
+    port: 9000
+    # Override this value with any string
+    username: b02a9587ea6bdd29979084250b6dd8d79e7cbaf73db1b248f66247ce8aa05d3f
+    # Override this value with any string
+    password: 39967b6f175585c3d2914577dde1256a2cc992eebf5964552b7567067cafb910
+    storage:
+      size: 10Gi
+      class: standard

@@ -1,0 +1,15 @@
+{{- if not .Values.mysql.external }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "akeneo.fullname" . }}-mysql-pvc
+  labels:
+    {{- include "akeneo.labels" . | nindent 4 }}
+spec:
+  storageClassName: {{ .Values.mysql.storage.class }}
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.mysql.storage.size }}
+{{- end }}
