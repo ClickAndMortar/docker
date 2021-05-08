@@ -4,7 +4,7 @@ MAINTAINER Click & Mortar <contact@clickandmortar.fr>
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        git wget zip zlib1g-dev libicu-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev libxml2-dev libxslt1-dev \
+        git wget zip zlib1g-dev libicu-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev libxml2-dev libxslt1-dev ssmtp \
     && wget https://getcomposer.org/composer.phar -O /usr/local/bin/composer \
     && chmod +x /usr/local/bin/composer \
     && docker-php-ext-install pdo pdo_mysql opcache zip json bcmath soap xsl \
