@@ -1,0 +1,23 @@
+# Image de base Symfony 7.x (PHP-FPM) des applis Click & Mortar.
+# Reconstruite le 21/10/2026 depuis les couches publiées sur Docker Hub (17/04/2026).
+# Construire avec --pull (voir Dockerfile.apache).
+ARG PHP_VERSION=8.4
+ARG DEBIAN_RELEASE=bookworm
+FROM php:${PHP_VERSION}-fpm-${DEBIAN_RELEASE}
+
+LABEL org.opencontainers.image.source="https://github.com/ClickAndMortar/docker"
+LABEL maintainer="Click & Mortar <contact@clickandmortar.fr>"
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        git wget zip libfreetype6-dev libicu-dev libjpeg62-turbo-dev libpng-dev libxslt1-dev libzip-dev libwebp-dev libavif-dev \
+    && wget -q https://getcomposer.org/download/latest-2.x/composer.phar -O /usr/local/bin/composer \
+    && chmod +x /usr/local/bin/composer \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-avif \
+    && docker-php-ext-install -j$(nproc) bcmath gd intl pcntl pdo_mysql sockets xsl zip opcache soap \
+    && pecl install redis \
+    && docker-php-ext-enable redis
+
+COPY php-fpm.ini /usr/local/etc/php/conf.d/custom.ini
+
+WORKDIR /app

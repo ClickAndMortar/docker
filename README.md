@@ -16,5 +16,6 @@
 * Symfony
   * [2.8-lts](symfony/2.8-lts)
   * [4.x](symfony/4.x)
+  * [7.x](symfony/7.x)
 * Vue StoreFront
   * [Proxy](vue-storefront/proxy)
