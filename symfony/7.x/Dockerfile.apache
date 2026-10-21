@@ -9,10 +9,16 @@ FROM php:${PHP_VERSION}-apache-${DEBIAN_RELEASE}
 LABEL org.opencontainers.image.source="https://github.com/ClickAndMortar/docker"
 LABEL maintainer="Click & Mortar <contact@clickandmortar.fr>"
 
+# Composer épinglé et vérifié : SHA-256 recoupée entre getcomposer.org, la release GitHub et la
+# signature GPG de Packagist. L'image publiée embarquait latest-2.x sans aucune vérification.
+ARG COMPOSER_VERSION=2.10.3
+ARG COMPOSER_SHA256=7a2d379d5b8ffdaa028580ef26494c36d2feef4b178d3dd1473a4dbc5e17c8d6
+
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         git wget zip libfreetype6-dev libicu-dev libjpeg62-turbo-dev libpng-dev libxslt1-dev libzip-dev libwebp-dev libavif-dev \
-    && wget -q https://getcomposer.org/download/latest-2.x/composer.phar -O /usr/local/bin/composer \
+    && wget -q https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar -O /usr/local/bin/composer \
+    && echo "${COMPOSER_SHA256}  /usr/local/bin/composer" | sha256sum -c - \
     && chmod +x /usr/local/bin/composer \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-avif \
     && docker-php-ext-install -j$(nproc) bcmath gd intl pcntl pdo_mysql sockets xsl zip \
