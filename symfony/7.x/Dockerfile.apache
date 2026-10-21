@@ -2,7 +2,7 @@
 # Reconstruite le 21/10/2026 depuis les couches publiées sur Docker Hub (17/04/2026), dont la
 # source n'était versionnée nulle part. Construire avec --pull : c'est l'image officielle php qui
 # apporte les correctifs de sécurité, rien d'autre ici ne fixe la version de PHP.
-ARG PHP_VERSION=8.4
+ARG PHP_VERSION=8.4.27
 ARG DEBIAN_RELEASE=bookworm
 FROM php:${PHP_VERSION}-apache-${DEBIAN_RELEASE}
 
