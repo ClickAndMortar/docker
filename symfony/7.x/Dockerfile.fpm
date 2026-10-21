@@ -1,7 +1,7 @@
 # Image de base Symfony 7.x (PHP-FPM) des applis Click & Mortar.
 # Reconstruite le 21/10/2026 depuis les couches publiées sur Docker Hub (17/04/2026).
 # Construire avec --pull (voir Dockerfile.apache).
-ARG PHP_VERSION=8.4
+ARG PHP_VERSION=8.4.27
 ARG DEBIAN_RELEASE=bookworm
 FROM php:${PHP_VERSION}-fpm-${DEBIAN_RELEASE}
 

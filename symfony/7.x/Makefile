@@ -6,6 +6,10 @@
 # plus aucun correctif. Les applis qui la tiraient passent en bookworm.
 REPO     ?= clickandmortar/symfony
 PLATFORM ?= linux/amd64
+# Versions exactes de PHP. Chaque image est publiée sous deux étiquettes : la flottante
+# (7.x-apache-php8.4-bookworm) et l'exacte (7.x-apache-php8.4.27-bookworm), que les applis épinglent.
+PHP84    ?= 8.4.27
+PHP83    ?= 8.3.36
 BUILD     = docker buildx build --pull --platform $(PLATFORM)
 
 all: build
@@ -13,13 +17,13 @@ all: build
 build: apache-php8.4 apache-php8.3 fpm-php8.4
 
 apache-php8.4:
-	$(BUILD) -f Dockerfile.apache --build-arg PHP_VERSION=8.4 -t $(REPO):7.x-apache-php8.4-bookworm $(PUSH) .
+	$(BUILD) -f Dockerfile.apache --build-arg PHP_VERSION=$(PHP84) -t $(REPO):7.x-apache-php8.4-bookworm -t $(REPO):7.x-apache-php$(PHP84)-bookworm $(PUSH) .
 
 apache-php8.3:
-	$(BUILD) -f Dockerfile.apache --build-arg PHP_VERSION=8.3 -t $(REPO):7.x-apache-php8.3-bookworm $(PUSH) .
+	$(BUILD) -f Dockerfile.apache --build-arg PHP_VERSION=$(PHP83) -t $(REPO):7.x-apache-php8.3-bookworm -t $(REPO):7.x-apache-php$(PHP83)-bookworm $(PUSH) .
 
 fpm-php8.4:
-	$(BUILD) -f Dockerfile.fpm --build-arg PHP_VERSION=8.4 -t $(REPO):7.x-fpm-php8.4-bookworm $(PUSH) .
+	$(BUILD) -f Dockerfile.fpm --build-arg PHP_VERSION=$(PHP84) -t $(REPO):7.x-fpm-php8.4-bookworm -t $(REPO):7.x-fpm-php$(PHP84)-bookworm $(PUSH) .
 
 # Construit et publie d'un coup : make push
 push:
