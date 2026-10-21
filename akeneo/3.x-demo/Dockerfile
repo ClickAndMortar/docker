@@ -4,9 +4,15 @@ MAINTAINER Click & Mortar <contact@clickandmortar.fr>
 
 ARG VERSION=3.1
 
+# Composer épinglé et vérifié : SHA-256 recoupée entre getcomposer.org et la release GitHub (la ligne 1.x n'est pas signée).
+# Reste en Composer 1, comme l'exige le projet (hirak/prestissimo, plugin Composer 1).
+ARG COMPOSER_VERSION=1.10.28
+ARG COMPOSER_SHA256=0915af36eb01e3f0e16cd309adff7051832b9ef014e38371756804b20425cd5a
+
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y git wget zip \
-    && wget https://getcomposer.org/composer.phar -O /usr/local/bin/composer \
+    && wget -q https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar -O /usr/local/bin/composer \
+    && echo "${COMPOSER_SHA256}  /usr/local/bin/composer" | sha256sum -c - \
     && chmod +x /usr/local/bin/composer
 
 WORKDIR /app
@@ -36,10 +42,16 @@ COPY pim-init-db.sh /usr/local/bin/pim-init-db.sh
 
 ENV APACHE_RUN_USER docker
 
+# Composer épinglé et vérifié : SHA-256 recoupée entre getcomposer.org et la release GitHub (la ligne 1.x n'est pas signée).
+# Reste en Composer 1, comme l'exige le projet (hirak/prestissimo, plugin Composer 1).
+ARG COMPOSER_VERSION=1.10.28
+ARG COMPOSER_SHA256=0915af36eb01e3f0e16cd309adff7051832b9ef014e38371756804b20425cd5a
+
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         git wget zip zlib1g-dev libicu-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev libmagickwand-dev \
-    && wget https://getcomposer.org/composer.phar -O /usr/local/bin/composer \
+    && wget -q https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar -O /usr/local/bin/composer \
+    && echo "${COMPOSER_SHA256}  /usr/local/bin/composer" | sha256sum -c - \
     && chmod +x /usr/local/bin/composer \
     && docker-php-ext-install pdo pdo_mysql opcache zip bcmath exif \
     && pecl install imagick \
