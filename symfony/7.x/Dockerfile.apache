@@ -19,8 +19,6 @@ ARG COMPOSER_SHA256=7a2d379d5b8ffdaa028580ef26494c36d2feef4b178d3dd1473a4dbc5e17
 # échoue si la version reste sous le plancher (2.4.71 : CVE-2026-119618, RCE dans mod_http2).
 ARG APACHE_MIN_VERSION=2.4.71
 
-COPY apache-http1-only.conf /etc/apache2/conf-available/http1-only.conf
-
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --only-upgrade apache2 apache2-bin apache2-data apache2-utils \
     && dpkg --compare-versions "$(dpkg-query -W -f='${Version}' apache2-bin)" ge "${APACHE_MIN_VERSION}" \
@@ -32,8 +30,7 @@ RUN apt-get update \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-avif \
     && docker-php-ext-install -j$(nproc) bcmath gd intl pcntl pdo_mysql sockets xsl zip \
     && a2enmod rewrite \
-    && sed -i 's/Listen 80$/Listen 8080/g' /etc/apache2/ports.conf \
-    && a2enconf http1-only
+    && sed -i 's/Listen 80$/Listen 8080/g' /etc/apache2/ports.conf
 
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf
