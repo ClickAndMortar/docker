@@ -24,4 +24,15 @@ make versions  # vérifie la version de PHP réellement publiée
 
 Puis reconstruire chaque appli (sa CI tire l'image de base à chaque build sur `main`).
 
+## Apache
+
+Apache vient des paquets Debian de l'image officielle, qui ne suit bookworm-security qu'à sa
+propre reconstruction. `Dockerfile.apache` le met donc à jour au build, et échoue si
+`apache2-bin` reste sous `APACHE_MIN_VERSION` (2.4.71 depuis la CVE-2026-119618, RCE dans
+mod_http2, novembre 2026). Au prochain correctif d'Apache : monter ce plancher, puis `make push`.
+
+`apache-http1-only.conf` limite Apache au HTTP/1.1 (`Protocols http/1.1` et `H2Direct off`) :
+même si une appli active mod_http2, il ne parle pas HTTP/2. Traefik et Cloudflare n'en ont pas
+besoin.
+
 Apache écoute sur 8080, l'appli vit dans `/app`, le processus tourne sous l'utilisateur `docker`.
