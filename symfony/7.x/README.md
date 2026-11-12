@@ -24,4 +24,14 @@ make versions  # vérifie la version de PHP réellement publiée
 
 Puis reconstruire chaque appli (sa CI tire l'image de base à chaque build sur `main`).
 
+## Apache
+
+Apache vient des paquets Debian de l'image officielle, qui ne suit bookworm-security qu'à sa
+propre reconstruction. `Dockerfile.apache` le met donc à jour au build, et échoue si
+`apache2-bin` reste sous `APACHE_MIN_VERSION` (2.4.71 depuis la CVE-2026-119618, RCE dans
+mod_http2, novembre 2026). Au prochain correctif d'Apache : monter ce plancher, puis `make push`.
+
+mod_http2 n'est pas activé par défaut (comme dans l'image officielle) ; `a2enmod http2` dans
+l'image dérivée pour servir du HTTP/2.
+
 Apache écoute sur 8080, l'appli vit dans `/app`, le processus tourne sous l'utilisateur `docker`.
