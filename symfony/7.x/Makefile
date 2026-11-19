@@ -7,9 +7,9 @@
 REPO     ?= clickandmortar/symfony
 PLATFORM ?= linux/amd64
 # Versions exactes de PHP. Chaque image est publiée sous deux étiquettes : la flottante
-# (7.x-apache-php8.4-bookworm) et l'exacte (7.x-apache-php8.4.27-bookworm), que les applis épinglent.
-PHP84    ?= 8.4.27
-PHP83    ?= 8.3.36
+# (7.x-apache-php8.4-bookworm) et l'exacte (7.x-apache-php8.4.28-bookworm), que les applis épinglent.
+PHP84    ?= 8.4.28
+PHP83    ?= 8.3.37
 BUILD     = docker buildx build --pull --platform $(PLATFORM)
 
 all: build

@@ -5,9 +5,9 @@ Quizendo, Texart, Uptimately, ion, vizually-app, website-2024).
 
 | Étiquette | Base officielle |
 |---|---|
-| `clickandmortar/symfony:7.x-apache-php8.4-bookworm` et `…php8.4.27-bookworm` | `php:8.4.27-apache-bookworm` |
-| `clickandmortar/symfony:7.x-apache-php8.3-bookworm` et `…php8.3.36-bookworm` | `php:8.3.36-apache-bookworm` |
-| `clickandmortar/symfony:7.x-fpm-php8.4-bookworm` et `…php8.4.27-bookworm` | `php:8.4.27-fpm-bookworm` |
+| `clickandmortar/symfony:7.x-apache-php8.4-bookworm` et `…php8.4.28-bookworm` | `php:8.4.28-apache-bookworm` |
+| `clickandmortar/symfony:7.x-apache-php8.3-bookworm` et `…php8.3.37-bookworm` | `php:8.3.37-apache-bookworm` |
+| `clickandmortar/symfony:7.x-fpm-php8.4-bookworm` et `…php8.4.28-bookworm` | `php:8.4.28-fpm-bookworm` |
 
 `7.x-apache-php8.4-bullseye` n'est plus construite : sa base officielle est figée en PHP 8.4.11
 depuis août 2025.
