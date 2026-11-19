@@ -2,10 +2,16 @@ FROM php:7.2-apache-stretch
 
 MAINTAINER Click & Mortar <contact@clickandmortar.fr>
 
+# Composer épinglé et vérifié : SHA-256 recoupée entre getcomposer.org et la release GitHub (et sa signature GPG).
+# Même ligne que ce que l'URL servait aujourd'hui (composer.phar = dernière stable).
+ARG COMPOSER_VERSION=2.10.3
+ARG COMPOSER_SHA256=7a2d379d5b8ffdaa028580ef26494c36d2feef4b178d3dd1473a4dbc5e17c8d6
+
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         git wget zip zlib1g-dev libicu-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev \
-    && wget https://getcomposer.org/composer.phar -O /usr/local/bin/composer \
+    && wget -q https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar -O /usr/local/bin/composer \
+    && echo "${COMPOSER_SHA256}  /usr/local/bin/composer" | sha256sum -c - \
     && chmod +x /usr/local/bin/composer \
     && docker-php-ext-install pdo pdo_mysql opcache zip json \
     && pecl install apcu \

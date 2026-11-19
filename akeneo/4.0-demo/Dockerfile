@@ -4,9 +4,15 @@ MAINTAINER Click & Mortar <contact@clickandmortar.fr>
 
 ARG VERSION=4.0
 
+# Composer épinglé et vérifié : SHA-256 recoupée entre getcomposer.org et la release GitHub (la ligne 1.x n'est pas signée).
+# Reste en Composer 1, comme l'exige le projet (composer-1.phar demandé).
+ARG COMPOSER_VERSION=1.10.28
+ARG COMPOSER_SHA256=0915af36eb01e3f0e16cd309adff7051832b9ef014e38371756804b20425cd5a
+
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y git wget zip zlib1g-dev libicu-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev libmagickwand-dev libzip-dev \
-    && wget -q https://getcomposer.org/composer-1.phar -O /usr/local/bin/composer \
+    && wget -q https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar -O /usr/local/bin/composer \
+    && echo "${COMPOSER_SHA256}  /usr/local/bin/composer" | sha256sum -c - \
     && chmod +x /usr/local/bin/composer
 
 COPY pim-init-db.sh /usr/local/bin/pim-init-db.sh
