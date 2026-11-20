@@ -1,0 +1,3 @@
+# Chrome APK payload (~258 MB) — build input, not committed. Re-obtain and verify
+# per README.md before building. The published image carries them baked in.
+chrome/
